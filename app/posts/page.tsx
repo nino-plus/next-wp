@@ -18,7 +18,7 @@ export default async function Page() {
     <>
       <h1 className="font-bold text-xl mb-6">記事一覧</h1>
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         {posts.map((post) => (
           <Card key={post.id} className="relative">
             <CardHeader>
