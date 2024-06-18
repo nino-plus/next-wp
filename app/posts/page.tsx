@@ -1,18 +1,20 @@
 import { getPosts } from '@/app/posts/data';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default async function Page() {
-  const posts = await getPosts();
+export default async function Page({
+  searchParams: { page = 1 },
+}: {
+  searchParams: {
+    page: number;
+  };
+}) {
+  const { posts, totalPageCount } = await getPosts(page);
 
   return (
     <>
@@ -54,6 +56,28 @@ export default async function Page() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      <div className="flex justify-between mt-6">
+        {page > 1 ? (
+          <Button asChild size="icon" variant="outline">
+            <Link href={`/posts?page=${Number(page) - 1}`}>
+              <ChevronLeft size={20} />
+              <span className="sr-only">戻る</span>
+            </Link>
+          </Button>
+        ) : (
+          <span></span>
+        )}
+
+        {totalPageCount > page && (
+          <Button asChild size="icon" variant="outline">
+            <Link href={`/posts?page=${Number(page) + 1}`}>
+              <ChevronRight size={20} />
+              <span className="sr-only">次へ</span>
+            </Link>
+          </Button>
+        )}
       </div>
     </>
   );
