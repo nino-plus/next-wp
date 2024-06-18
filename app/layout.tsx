@@ -5,6 +5,9 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { TITLE } from '@/config';
 import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
+import { redirect } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +28,30 @@ export default function RootLayout({
           <Button variant="ghost" asChild>
             <Link href="/">{TITLE}</Link>
           </Button>
+
+          <form
+            action={async (formData: FormData) => {
+              'use server';
+
+              const keyword = formData.get('keyword') as string;
+
+              if (keyword) {
+                redirect(`/search?keyword=${encodeURIComponent(keyword)}`);
+              }
+            }}
+            className="flex gap-1"
+          >
+            <Input
+              autoComplete="off"
+              name="keyword"
+              type="search"
+              className="flex-1"
+            />
+            <Button size="icon" variant="outline">
+              <Search size={20} />
+              <span className="sr-only">検索</span>
+            </Button>
+          </form>
         </header>
 
         <main className="container py-8">{children}</main>
