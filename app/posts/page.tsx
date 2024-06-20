@@ -1,6 +1,6 @@
-import { getPosts } from '@/app/posts/data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { getPosts } from '@/data/post';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { ChevronLeft, ChevronRight } from 'lucide-react';

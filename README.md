@@ -34,3 +34,23 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## WP プレビュー設定
+
+以下を `functions.php` に追加する
+
+```php
+add_action("template_redirect", function () {
+  if (!is_admin() && isset($_GET["preview"]) && $_GET["preview"] == true) {
+    $id = $_GET["preview_id"] ? $_GET["preview_id"] : $_GET["p"];
+    $redirect = add_query_arg(
+      [
+        "id" => $id,
+		  "secret" => "uaiOQyAWUd1uChFf8Fw91HxhsCJav8P0r6cV02IegCFSq4L0OxSfgDHqgdyqrzYP"
+      ],
+      "http://localhost:3000/api/draft"
+    );
+    wp_redirect($redirect);
+  }
+});
+```
